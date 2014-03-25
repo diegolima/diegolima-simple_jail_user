@@ -1,4 +1,4 @@
-##Simple Jail User
+##Simple Jail User Puppet Module
 
 This puppet module to create Linux simple jail user with restricted bash.
 
