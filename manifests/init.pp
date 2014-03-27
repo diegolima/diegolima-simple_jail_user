@@ -5,104 +5,21 @@
 # $Id: init.pp 147 2013-11-27 08:03:15Z rikih.gunawan $
 #-------------------------------------------------------
 
-define createSymlink {
+define createSymlink($homebin, $cmd) {
 
-	file { "/home/${name}/bin/ifconfig":
+	file { "${homebin}/${cmd}":
 		ensure => link,
-		target => '/sbin/ifconfig',
+		target => "/sbin/$cmd",
 		owner  => 'root',
 		group  => 'root',
 		mode   => '0777',
 	}
-
-        file { "/home/${name}/bin/route":
-                ensure => link,
-                target => '/sbin/route',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/groups":
-                ensure => link,
-                target => '/usr/bin/groups',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/ls":
-                ensure => link,
-                target => '/bin/ls',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/sed":
-                ensure => link,
-                target => '/bin/sed',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/snmpget":
-                ensure => link,
-                target => '/usr/bin/snmpget',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/snmpwalk":
-                ensure => link,
-                target => '/usr/bin/snmpwalk',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/ssh":
-                ensure => link,
-                target => '/usr/bin/ssh',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/telnet":
-                ensure => link,
-                target => '/usr/bin/telnet',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-        file { "/home/${name}/bin/traceroute":
-                ensure => link,
-                target => '/bin/traceroute',
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0777',
-        }
-
-	file { "/home/${name}/bin/ping":
-		ensure => link,
-		target => '/bin/ping',
-		owner  => 'root',
-		group  => 'root',
-		mode   => '0777',
-	}
-
 }
 
-
-define cleanUpHomeDir {
-
-	$unneeded_files = [ "/home/$name/.bash_logout", "/home/$name/.bash_profile", "/home/$name/.bashrc" ]
-	$bin_dir = "/home/$name/bin"
-	$home_dir = "/home/$name"
+define cleanUpHomeDir($homedir) {
+	$unneeded_files = [ "$homedir/$name/.bash_logout", "$homedir/$name/.bash_profile", "$homedir/$name/.bashrc" ]
+	$bin_dir = "$homedir/$name/bin"
+	$home_dir = "$homedir/$name"
 
 	file { $unneeded_files: 
 		ensure => absent,
@@ -127,8 +44,7 @@ define cleanUpHomeDir {
 		owner  => 'root',
 		group  => "${name}",
 		mode   => '0750',
-		source => 'puppet:///modules/cdm_jail_user/profile',
-		##target => "${home_dir}/.profile",
+		source => 'puppet:///modules/simple_jail_user/profile',
 	}
 
 	file { "${home_dir}/.bash_history":
@@ -140,17 +56,19 @@ define cleanUpHomeDir {
 
 }
 
-class cdm_jail_user( 
+class simple_jail_user( 
 	$username,
-	$password = '$1$0t5I3mcB$DQyxLqwNpDUIppY0D7HKa1',
+	$password,
+	$homedir="/home"
 	){
-	# default password: Orange365
+
+	$bashbin="/bin/bash"
+	$rbashbin="/bin/rbash"
 
 	notify { "Creating CDM Jail Users..": }
-
-	file { '/bin/rbash':
+	file { $rbashbin:
 		ensure => link,
-		target => '/bin/bash',
+		target => $bashbin,
 		owner  => 'root',
 		group  => 'root',
 		mode   => '0777',
@@ -158,22 +76,25 @@ class cdm_jail_user(
 
 	notify { 'Creating user..': }
 	user { $username:
-  		ensure           => 'present',
-  		comment          => $username,
+  		ensure           => present,
+  		comment          => "Simple jail user $username",
 		managehome	 => true,
-  		password         => $password,
+  		password         => generate($bashbin, '-c', "echo ${password} | openssl passwd -1 -stdin | tr -d '\n'"),
  	 	password_min_age => '0',
-  		shell            => '/bin/rbash',
-		require 	 => File['/bin/rbash'],	
+  		shell            => $bashbin,
+		require 	 => File[$rbashbin],	
 	}
 
 	notify { 'Cleaning up home dir..': }
 	cleanUpHomeDir { $username: 
+		homedir => $homedir,
 		require => User[$username],
 	}
 
 	notify { 'Creating symlink..': }
 	createSymlink { $username:
+		homebin => $homebin, 
+		cmd     => ["ifconfig","ip"],
 		require => CleanUpHomeDir[$username],
 	}
 }
