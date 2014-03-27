@@ -1,18 +1,18 @@
-export PATH=$HOME/bin:/opt/InCharge9/IP/smarts/bin:/opt/InCharge9/SAM/smarts/bin:/opt/InCharge9/IP/smarts/bin:/opt/InCharge8/SAM/smarts/bin
+export PATH=$HOME/bin
 export PS1="[\u@\h \W]$ "
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S - "
 export HISTSIZE=10000
 #export PROMPT_COMMAND="history -a; history -c; history -r; "
-alias netinfo='echo -e "Ifconfig\n"; ifconfig -a; echo -e "Route\n"; route -n'
+#alias netinfo='echo -e "Ifconfig\n"; ifconfig -a; echo -e "Route\n"; route -n'
 alias alias=""
 
 shopt -s histappend
 
-#readonly PROMPT_COMMAND
+readonly PROMPT_COMMAND
 readonly HISTSIZE
 readonly HISTFILE
 readonly HOME
 readonly HISTIGNORE
 readonly HISTCONTROL
-echo -e "\nAvailable Commands:\nping\nssh\nsnmpget\nsnmpwalk\nsm_snmpwalk\nsm_snmp\ntelnet\ntraceroute\nnetinfo - print network info\n\n"
+echo -e "\nAvailable Commands:\n"
 
