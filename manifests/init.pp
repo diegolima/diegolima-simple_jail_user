@@ -5,32 +5,50 @@
 # $Id: init.pp 147 2013-11-27 08:03:15Z rikih.gunawan $
 #-------------------------------------------------------
 
-define createSymlink($homebin, $cmd) {
+define createSymlink() {
 
-	file { "${homebin}/${cmd}":
+	$tmp    = split($name, '::')
+	$cmd    = "${tmp[1]}"
+	$bin    = inline_template("<%= File.basename('${cmd}') %>") 
+	$exec   = "${tmp[0]}/${bin}"
+	$target = "${tmp[1]}"
+	
+	file { "${exec}":
 		ensure => link,
-		target => "/sbin/$cmd",
 		owner  => 'root',
 		group  => 'root',
 		mode   => '0777',
+		target => "${target}",
 	}
+
 }
 
-define cleanUpHomeDir($homedir) {
+define parseUser($homedir, $cmd) {
+ 
+        $bin_dir = "$homedir/$name/bin"
+        $home_dir = "$homedir/$name"
+
+	$cmd2 = regsubst($cmd, '(^/+)', "${bin_dir}::\0", 'G')
+	createSymlink {$cmd2: }
+	
+}
+
+define cleanUpHomeDir($homedir,$cmd) {
+
 	$unneeded_files = [ "$homedir/$name/.bash_logout", "$homedir/$name/.bash_profile", "$homedir/$name/.bashrc" ]
-	$bin_dir = "$homedir/$name/bin"
 	$home_dir = "$homedir/$name"
+	$bin_dir = "$homedir/$name/bin"
 
 	file { $unneeded_files: 
 		ensure => absent,
 	}
 
-	file { $bin_dir:
-		ensure => directory,
-		owner  => 'root',
-		group  => 'root',
-		mode   => '0755',
-	}
+        file { $bin_dir:
+                ensure => directory,
+                owner  => 'root',
+                group  => 'root',
+                mode   => '0755',
+        }
 
 	file { $home_dir:
 		ensure => directory,
@@ -44,7 +62,7 @@ define cleanUpHomeDir($homedir) {
 		owner  => 'root',
 		group  => "${name}",
 		mode   => '0750',
-		source => 'puppet:///modules/simple_jail_user/profile',
+		content=> template("simple_jail_user/profile.erb"),
 	}
 
 	file { "${home_dir}/.bash_history":
@@ -59,6 +77,7 @@ define cleanUpHomeDir($homedir) {
 class simple_jail_user( 
 	$username,
 	$password,
+	$cmd,
 	$homedir="/home"
 	){
 
@@ -88,13 +107,14 @@ class simple_jail_user(
 	notify { 'Cleaning up home dir..': }
 	cleanUpHomeDir { $username: 
 		homedir => $homedir,
+		cmd     => $cmd,
 		require => User[$username],
 	}
 
 	notify { 'Creating symlink..': }
-	createSymlink { $username:
-		homebin => $homebin, 
-		cmd     => ["ifconfig","ip"],
+	parseUser { $username:
+		homedir => "${homedir}", 
+		cmd     => $cmd, 
 		require => CleanUpHomeDir[$username],
 	}
 }
