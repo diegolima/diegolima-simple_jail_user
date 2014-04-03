@@ -2,7 +2,7 @@
   "author": "rikih",
   "checksums": {
     "LICENSE": "ed56aa5c7d5c0631cb453dd449a590f5",
-    "manifests/init.pp": "09717339a04b654fccf0ffbd70e5bf07",
+    "manifests/init.pp": "177a0c166ece9be230764b7ae9adb197",
     "files/profile": "55c3da1426aaadaddbfd656b03b1204e",
     "README": "aefa63364268297246b08355eed52e81",
     "Modulefile": "89f21f333706826b054a689c80b6ea3b",
