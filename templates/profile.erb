@@ -1,9 +1,9 @@
+
 export PATH=$HOME/bin
 export PS1="[\u@\h \W]$ "
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S - "
-export HISTSIZE=10000
-#export PROMPT_COMMAND="history -a; history -c; history -r; "
-#alias netinfo='echo -e "Ifconfig\n"; ifconfig -a; echo -e "Route\n"; route -n'
+export HISTSIZE=1000
+
 alias alias=""
 
 shopt -s histappend
@@ -15,8 +15,8 @@ readonly HOME
 readonly HISTIGNORE
 readonly HISTCONTROL
 
-<%= if has_variable?("cmd") -%>
-test
-<%= cmd.each do |line| -%> <%= line -%> <%= end -%>
-<%= end -%>
+echo -e "Available commands:
+<% cmd.each do |val| -%>
+* <%= File.basename(val) %>
+<% end -%>
 
