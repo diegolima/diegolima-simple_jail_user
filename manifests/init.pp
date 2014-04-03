@@ -7,8 +7,11 @@
 
 define createSymlink () {
   
+  # split array element /home/user/bin::/sbin/ifconfig
   $tmp = split($name, '::')
   $cmd = "${tmp[1]}"
+
+  # get basename of executable file /sbin/ifconfig => ifconfig
   $bin = inline_template("<%= File.basename('${cmd}') %>")
   $exec = "${tmp[0]}/${bin}"
   $target = "${tmp[1]}"
@@ -25,11 +28,13 @@ define createSymlink () {
 
 define parseUser ($homedir, $cmd) {
   
-  $bin_dir = "$homedir/$name/bin"
+  $bin_dir  = "$homedir/$name/bin"
   $home_dir = "$homedir/$name"
 
-  $cmd2 = regsubst($cmd,'(^/+)',"${bin_dir}::\\0",'G')
+  # change array element /home/user/bin::/sbin/ifconfig
+  $cmd2     = regsubst($cmd,'(^/+)',"${bin_dir}::\\0",'G')
 
+  # create symlink
   createSymlink { $cmd2: }
 
 }
