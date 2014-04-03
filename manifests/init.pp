@@ -5,119 +5,109 @@
 # $Id: init.pp 147 2013-11-27 08:03:15Z rikih.gunawan $
 #-------------------------------------------------------
 
-define createSymlink() {
+define createSymlink () {
+  
+  $tmp = split($name, '::')
+  $cmd = "${tmp[1]}"
+  $bin = inline_template("<%= File.basename('${cmd}') %>")
+  $exec = "${tmp[0]}/${bin}"
+  $target = "${tmp[1]}"
 
-	$tmp    = split($name, '::')
-	$cmd    = "${tmp[1]}"
-	$bin    = inline_template("<%= File.basename('${cmd}') %>") 
-	$exec   = "${tmp[0]}/${bin}"
-	$target = "${tmp[1]}"
-	
-	file { "${exec}":
-		ensure => link,
-		owner  => 'root',
-		group  => 'root',
-		mode   => '0777',
-		target => "${target}",
-	}
-
-}
-
-define parseUser($homedir, $cmd) {
- 
-        $bin_dir = "$homedir/$name/bin"
-        $home_dir = "$homedir/$name"
-
-	$cmd2 = regsubst($cmd, '(^/+)', "${bin_dir}::\0", 'G')
-	createSymlink {$cmd2: }
-	
-}
-
-define cleanUpHomeDir($homedir,$cmd) {
-
-	$unneeded_files = [ "$homedir/$name/.bash_logout", "$homedir/$name/.bash_profile", "$homedir/$name/.bashrc" ]
-	$home_dir = "$homedir/$name"
-	$bin_dir = "$homedir/$name/bin"
-
-	file { $unneeded_files: 
-		ensure => absent,
-	}
-
-        file { $bin_dir:
-                ensure => directory,
-                owner  => 'root',
-                group  => 'root',
-                mode   => '0755',
-        }
-
-	file { $home_dir:
-		ensure => directory,
-		owner  => 'root',
-		group  => "${name}",
-		mode   => '2070',
-	} 
-
-	file { "${home_dir}/.profile":
-		ensure => file,
-		owner  => 'root',
-		group  => "${name}",
-		mode   => '0750',
-		content=> template("simple_jail_user/profile.erb"),
-	}
-
-	file { "${home_dir}/.bash_history":
-		ensure => file,
-		owner  => $name,
-		group  => $name,
-		mode   => '0600',
-	}
+  file { "${exec}":
+    ensure => link,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0777',
+    target => "${target}",
+  }
 
 }
 
-class simple_jail_user( 
-	$username,
-	$password,
-	$cmd,
-	$homedir="/home"
-	){
+define parseUser ($homedir, $cmd) {
+  
+  $bin_dir = "$homedir/$name/bin"
+  $home_dir = "$homedir/$name"
 
-	$bashbin="/bin/bash"
-	$rbashbin="/bin/rbash"
+  $cmd2 = regsubst($cmd,'(^/+)',"${bin_dir}::\\0",'G')
 
-	notify { "Creating CDM Jail Users..": }
-	file { $rbashbin:
-		ensure => link,
-		target => $bashbin,
-		owner  => 'root',
-		group  => 'root',
-		mode   => '0777',
-	}
+  createSymlink { $cmd2: }
 
-	notify { 'Creating user..': }
-	user { $username:
-  		ensure           => present,
-  		comment          => "Simple jail user $username",
-		managehome	 => true,
-  		password         => generate($bashbin, '-c', "echo ${password} | openssl passwd -1 -stdin | tr -d '\n'"),
- 	 	password_min_age => '0',
-  		shell            => $bashbin,
-		require 	 => File[$rbashbin],	
-	}
-
-	notify { 'Cleaning up home dir..': }
-	cleanUpHomeDir { $username: 
-		homedir => $homedir,
-		cmd     => $cmd,
-		require => User[$username],
-	}
-
-	notify { 'Creating symlink..': }
-	parseUser { $username:
-		homedir => "${homedir}", 
-		cmd     => $cmd, 
-		require => CleanUpHomeDir[$username],
-	}
 }
 
+define cleanUpHomeDir ($homedir, $cmd) {
+  
+  $unneeded_files = ["$homedir/$name/.bash_logout", "$homedir/$name/.bash_profile", "$homedir/$name/.bashrc"]
+  $home_dir = "$homedir/$name"
+  $bin_dir = "$homedir/$name/bin"
 
+  file { $unneeded_files: ensure => absent, }
 
+  file { $bin_dir:
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
+  file { $home_dir:
+    ensure => directory,
+    owner  => 'root',
+    group  => "${name}",
+    mode   => '2070',
+  }
+
+  file { "${home_dir}/.profile":
+    ensure  => file,
+    owner   => 'root',
+    group   => "${name}",
+    mode    => '0750',
+    content => template("simple_jail_user/profile.erb"),
+  }
+
+  file { "${home_dir}/.bash_history":
+    ensure => file,
+    owner  => $name,
+    group  => $name,
+    mode   => '0600',
+  }
+
+}
+
+class simple_jail_user ($username, $password, $cmd, $homedir = "/home") {
+  
+  $bashbin = "/bin/bash"
+  $rbashbin = "/bin/rbash"
+
+  notify { "Creating CDM Jail Users..": }
+
+  file { $rbashbin:
+    ensure => link,
+    target => $bashbin,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0777',
+  }
+
+  user { $username:
+    ensure           => present,
+    comment          => "Simple jail user $username",
+    managehome       => true,
+    password         => generate($bashbin, '-c', "echo ${password} | openssl passwd -1 -stdin | tr -d '\n'"),
+    password_min_age => '0',
+    shell            => $bashbin,
+    require          => File[$rbashbin],
+  }
+
+  cleanUpHomeDir { $username:
+    homedir => $homedir,
+    cmd     => $cmd,
+    require => User[$username],
+  }
+
+  parseUser { $username:
+    homedir => "${homedir}",
+    cmd     => $cmd,
+    require => CleanUpHomeDir[$username],
+  }
+
+}

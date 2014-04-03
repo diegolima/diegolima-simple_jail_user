@@ -1,0 +1,23 @@
+{
+  "author": "rikih",
+  "checksums": {
+    "LICENSE": "ed56aa5c7d5c0631cb453dd449a590f5",
+    "manifests/init.pp": "93d7d1ad5b833ecb317578acc94f798b",
+    "files/profile": "55c3da1426aaadaddbfd656b03b1204e",
+    "README": "aefa63364268297246b08355eed52e81",
+    "Modulefile": "89f21f333706826b054a689c80b6ea3b",
+    "tests/init.pp": "696648a5c35fc63f0e5e51edb9565513",
+    "templates/profile.erb": "068132c678b175e40f5a0a2236d24f3f",
+    "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",
+    "README.md": "1021e22558658f6bb9ab38bdfa53826c"
+  },
+  "dependencies": [],
+  "description": "UNKNOWN",
+  "license": "Apache License, Version 2.0",
+  "name": "rikih-simple_jail_user",
+  "project_page": "UNKNOWN",
+  "source": "UNKNOWN",
+  "summary": "UNKNOWN",
+  "types": [],
+  "version": "0.1.0"
+}
