@@ -109,5 +109,5 @@ class simple_jail_user ($username, $password, $cmd, $homedir = "/home") {
     cmd     => $cmd,
     require => CleanUpHomeDir[$username],
   }
-
+test
 }
