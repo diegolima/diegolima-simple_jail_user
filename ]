@@ -19,27 +19,29 @@ class simple_jail_user ($user_data) {
   		# change array element /home/user/bin::/sbin/ifconfig
   		$cmd2     = regsubst($commands,'(^/+)',"${bin_dir}::\0",'G')
   		$cmd3     = regsubst($cmd2,'(^/+)',",\0",'G')
+		$cmd4=['1','2','3']
 	
   		# create symlink
-		createSymlink { $cmd2: }
+		createSymlink { "$cmd4": }
 
 	}
 
+	/*
 	define createSymlink () {
 
-
+		notify {"INI=$name": }
 
   		# split array element /home/user/bin::/sbin/ifconfig
-  		$tmp = split($name,'::')
-  		$cmd = "${tmp[1]}"
+  		$tmp = split($name, ',')
+  		$tmp2 = split($tmp[1], '::')
+  		$cmd = "${tmp2[1]}"
 
   		# get basename of executable file /sbin/ifconfig => ifconfig
   		$bin = inline_template("<%= File.basename('${cmd}') %>")
   		$exec = "${tmp[0]}/${bin}"
   		$target = "${tmp[1]}"
-notify {"EXEC=$exec - $target": }
-	}
-
+notify {"$exec - $target": }
+*/
 		/*
   		file { "${exec}":
     			ensure => link,
@@ -53,6 +55,9 @@ notify {"EXEC=$exec - $target": }
 */
 	create_resources(foo, $user_data)
 
+}
+define createSymlink {
+	notify {"$name": }
 }
 
 /*
