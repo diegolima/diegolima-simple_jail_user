@@ -16,7 +16,8 @@ readonly HISTIGNORE
 readonly HISTCONTROL
 
 echo -e "Available commands:
-<% cmd.each do |val| -%>
+<% commands.each do |val| -%>
 * <%= File.basename(val) %>
 <% end -%>
+"
 
