@@ -126,7 +126,7 @@ lrwxrwxrwx 1 root root   12 Apr 20 15:41 ftp -> /usr/bin/ftp
 lrwxrwxrwx 1 root root   15 Apr 20 15:41 telnet -> /usr/bin/telnet
 lrwxrwxrwx 1 root root   15 Apr 20 15:41 traceroute -> /bin/traceroute
 
-Test if the jail user
+Test if the jail user only able to run commands that you specified only
 
 # ssh john@server1
 john@server1's password: 
