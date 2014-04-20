@@ -1,74 +1,74 @@
 {
-  "name": "rikih-simple_jail_user",
-  "license": "MIT License",
   "operatingsystem_support": [
     {
-      "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "5",
         "6"
-      ]
+      ],
+      "operatingsystem": "RedHat"
     },
     {
-      "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "5",
         "6"
-      ]
+      ],
+      "operatingsystem": "CentOS"
     },
     {
-      "operatingsystem": "Fedora",
       "operatingsystemrelease": [
         "18"
-      ]
+      ],
+      "operatingsystem": "Fedora"
     },
     {
-      "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
         "7"
-      ]
+      ],
+      "operatingsystem": "Debian"
     },
     {
-      "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "10.04",
         "12.04"
-      ]
+      ],
+      "operatingsystem": "Ubuntu"
     }
   ],
   "summary": "Simple Jail User Module",
   "checksums": {
-    "tests/init.pp": "696648a5c35fc63f0e5e51edb9565513",
-    "README.md": "ac4d4ca68937822e5f047961609018e3",
-    "LICENSE": "ed56aa5c7d5c0631cb453dd449a590f5",
-    "manifests/params.pp": "c75cfc30ebf51869df9c1d6ad74f44e0",
-    "files/profile": "55c3da1426aaadaddbfd656b03b1204e",
     "manifests/init.pp": "178db0472298717a6d05f1a68f41255e",
-    "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",
-    "README": "aefa63364268297246b08355eed52e81",
     "templates/profile.erb": "89389be00b9a589e8b3e68c9a4ca24f8",
-    "Modulefile": "bcb5cf572d9a8a034447a84adf073f58"
+    "LICENSE": "ed56aa5c7d5c0631cb453dd449a590f5",
+    "tests/init.pp": "696648a5c35fc63f0e5e51edb9565513",
+    "README": "aefa63364268297246b08355eed52e81",
+    "files/profile": "55c3da1426aaadaddbfd656b03b1204e",
+    "manifests/params.pp": "c75cfc30ebf51869df9c1d6ad74f44e0",
+    "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",
+    "Modulefile": "bcb5cf572d9a8a034447a84adf073f58",
+    "README.md": "ffb4a7b1d8a09baa0bc17a27e3ccaa3b"
   },
-  "version": "0.1.0",
+  "author": "Rikih Gunawan",
   "description": "Simple Jail User Module",
   "project_page": "https://github.com/rikihg/rikih-simple_jail_user",
-  "source": "https://github.com/rikihg/rikih-simple_jail_user.git",
-  "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": "2.7.x"
-    },
-    {
-      "name": "puppet",
-      "version_requirement": "2.7.x"
-    }
-  ],
-  "types": [
-
-  ],
   "dependencies": [
 
   ],
-  "author": "Rikih Gunawan"
+  "license": "MIT License",
+  "name": "rikih-simple_jail_user",
+  "requirements": [
+    {
+      "version_requirement": "2.7.x",
+      "name": "pe"
+    },
+    {
+      "version_requirement": "2.7.x",
+      "name": "puppet"
+    }
+  ],
+  "source": "https://github.com/rikihg/rikih-simple_jail_user.git",
+  "version": "0.1.0",
+  "types": [
+
+  ]
 }

@@ -6,23 +6,6 @@ Puppet Module to create simple jail user using restricted shell using bash (rbas
 ###What is restricted shell ?
 The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html)
 
-If Bash is started with the name rbash, or the --restricted or -r option is supplied at invocation, the shell becomes restricted. A restricted shell is used to set up an environment more controlled than the standard shell. A restricted shell behaves identically to bash with the exception that the following are disallowed or not performed:
-
-Changing directories with the cd builtin.
-Setting or unsetting the values of the SHELL, PATH, ENV, or BASH_ENV variables.
-Specifying command names containing slashes.
-Specifying a filename containing a slash as an argument to the . builtin command.
-Specifying a filename containing a slash as an argument to the -p option to the hash builtin command.
-Importing function definitions from the shell environment at startup.
-Parsing the value of SHELLOPTS from the shell environment at startup.
-Redirecting output using the ‘>’, ‘>|’, ‘<>’, ‘>&’, ‘&>’, and ‘>>’ redirection operators.
-Using the exec builtin to replace the shell with another command.
-Adding or deleting builtin commands with the -f and -d options to the enable builtin.
-Using the enable builtin command to enable disabled shell builtins.
-Specifying the -p option to the command builtin.
-Turning off restricted mode with ‘set +r’ or ‘set +o restricted’.
-These restrictions are enforced after any startup files are read.
-
 ###Limitation
 
 * Currently only tested for CentOS/RedHat 5.x/6.x, Ubuntu 12.x (precise), Debian 7.x (wheezy), Fedora 18
