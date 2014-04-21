@@ -10,11 +10,13 @@ The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Rest
 
 * Currently only tested for CentOS/RedHat 5.x/6.x, Ubuntu 12.x (precise), Debian 7.x (wheezy), Fedora 18
 * The command that you limit does not have any dependency with other command and able to run with PATH=$HOME/bin only.
+```linux
   e.g: 
       how to check if the command is able to run on restricted bash ?
       # export PATH=/bin
       # ./date
 	Sun Apr 20 23:28:49 SGT 2014
+```
 
 ###How to use
 
@@ -57,7 +59,7 @@ node "kiwi" {
 
 
 	class {'simple_jail_user': 
-		user_data => $foo_params,
+		user_data => $user_data,
 
 	}
 
