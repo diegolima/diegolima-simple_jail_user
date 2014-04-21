@@ -1,7 +1,8 @@
 rikih-simple-jail-user
 =====================
 
-Puppet Module to create simple jail user using restricted shell using bash (rbash) on Linux
+Puppet Module to create simple jail user using restricted shell using bash (rbash) on Linux. 
+How it's works, we create the user and set the shell pointing to rbash and then create symlink of commands into $HOME/bin/ and then limit the environment variable PATH only to $HOME/bin.
 
 ###What is restricted shell ?
 The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html)
@@ -20,6 +21,27 @@ The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Rest
 
 ###How to use
 
+```puppet
+	$user_data = { 
+		'user1' => {
+			home_dir        => '/home',
+			password        => 'password',
+			commands        => ['/path/command1','/path/command2']
+		},
+		'user2' => {
+			home_dir 	=> '/home', 
+			password        => 'password', 
+			commands        => ['/path/command1','/path/command2','/path/command3']
+			},
+	}
+
+
+	class {'simple_jail_user': 
+		user_data => $user_data,
+
+	}
+```
+
 Go to the puppet modules dir and clone the git repo
 
 ```linux
@@ -36,25 +58,24 @@ Unpacking objects: 100% (89/89), done.
 # vim /etc/puppet/manifests/site.pp
 ```
 
-Change the site.pp
+For example we want to limit user "riq" only able to run command "/sbin/ifconfig" and "/sbin/ip" only
+also user "john" only able to run command "/usr/bin/telnet", "/bin/traceroute" and "/usr/bin/ftp" only.
+To do above requirement, change the site.pp like below.
 
 ```puppet
 node "kiwi" {
 
 	$user_data = { 
-
-                        'riq' => {
-                                home_dir        => '/home',
-                                password        => 'password',
-                                commands        => ['/sbin/ifconfig','/sbin/ip']
-                        },
-
-			'john' => {
-			        home_dir 	=> '/opt/home', 
-				password        => 'password', 
-				commands        => ['/usr/bin/telnet','/bin/traceroute','/usr/bin/ftp']
+		'riq' => {
+			home_dir        => '/home',
+			password        => 'password',
+			commands        => ['/sbin/ifconfig','/sbin/ip']
+		},
+		'john' => {
+			home_dir 	=> '/opt/home', 
+			password        => 'password', 
+			commands        => ['/usr/bin/telnet','/bin/traceroute','/usr/bin/ftp']
 			},
-
 	}
 
 
@@ -62,7 +83,6 @@ node "kiwi" {
 		user_data => $user_data,
 
 	}
-
 }
 ```
 
