@@ -9,7 +9,7 @@ The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Rest
 
 ###Limitation
 
-* Currently only tested for CentOS/RedHat 5.x/6.x, Ubuntu 12.x (precise), Debian 7.x (wheezy), Fedora 18
+* Currently only tested for CentOS/RedHat 5.x/6.x, Ubuntu 12.x (precise), Debian 7.x (wheezy), Fedora 18, OpenBSD 5.0
 * The command that you limit does not have any dependency with other command and able to run with PATH=$HOME/bin only.
 ```linux
   e.g: 
@@ -176,7 +176,8 @@ where  OBJECT := { link | addr | addrlabel | route | rule | neigh | ntable | tun
 ```
 
 ###Help
-Please contact me at rikih dot gunawan at gmail dot com
+Please log tickets and issues at our page https://github.com/rikihg/rikih-simple_jail_user/issues
+or contact me at rikih dot gunawan at gmail dot com
 
 ###Note
 No responsibility for any damages relating to its use. Use at your own risk.
