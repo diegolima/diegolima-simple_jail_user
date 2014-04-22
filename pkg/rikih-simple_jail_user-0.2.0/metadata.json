@@ -1,5 +1,5 @@
 {
-"operatingsystem_support": [
+  "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
@@ -41,6 +41,19 @@
       ]
     }
   ],
+  "name": "rikih-simple_jail_user",
+  "version": "0.2.0",
+  "author": "Rikih Gunawan",
+  "checksums": {
+    "LICENSE": "ed56aa5c7d5c0631cb453dd449a590f5",
+    "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",
+    "tests/init.pp": "696648a5c35fc63f0e5e51edb9565513",
+    "manifests/init.pp": "d28241c1ad1783333e992d881539b89b",
+    "Modulefile": "4419001a00e08bcb2e64addaf76d6e5f",
+    "templates/profile.erb": "89389be00b9a589e8b3e68c9a4ca24f8",
+    "manifests/params.pp": "742e86736512364e94ec5b9a843244d8",
+    "README.md": "79634c88e2a9da64859df383d4a326c0"
+  },
   "requirements": [
     {
       "name": "pe",
@@ -51,17 +64,14 @@
       "version_requirement": "2.7.x"
     }
   ],
-  "summary": "Simple Jail User Module for RedHat, CentOS, Fedora, Ubuntu, Debian",
-  "project_page": "https://github.com/rikihg/rikih-simple_jail_user",
-  "name": "rikih-simple_jail_user",
-  "license": "MIT License",
   "source": "https://github.com/rikihg/rikih-simple_jail_user.git",
-  "version": "0.1.0",
-  "author": "Rikih Gunawan",
   "types": [
 
   ],
-  "description": "Simple Jail User Module for RedHat, CentOS, Fedora, Ubuntu, Debian",
+  "summary": "Simple Jail User Module",
+  "project_page": "https://github.com/rikihg/rikih-simple_jail_user",
+  "license": "MIT License",
+  "description": "Simple Jail User Module",
   "dependencies": [
 
   ]
