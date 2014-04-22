@@ -21,17 +21,13 @@ The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Rest
 
 ###How to use
 
-* is_hash = true | false
-if you're using hash on the password, you must set it to "true" else set it to "false"
+* is_hash = true | false : if you're using hash on the password, you must set it to "true" else set it to "false"
 
-* home_dir
-User home directory location
+* home_dir : User home directory location
 
-* password
-User password, it can be using clear text (is_hash = false) or encrypted text (is_hash = true)
+* password : User password, it can be using clear text (is_hash = false) or encrypted text (is_hash = true)
 
-* commands
-List of commands that you want to allow for the user
+* commands : List of commands that you want to allow for the user
 
 ```puppet
 	$user_data = { 
