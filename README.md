@@ -58,22 +58,36 @@ Unpacking objects: 100% (89/89), done.
 # vim /etc/puppet/manifests/site.pp
 ```
 
-For example we want to limit user "riq" only able to run command "/sbin/ifconfig" and "/sbin/ip" only
-also user "john" only able to run command "/usr/bin/telnet", "/bin/traceroute" and "/usr/bin/ftp" only.
+For example we want to create user "riq" with password "password" and limit this user only able to run command "/sbin/ifconfig" and "/sbin/ip" only
+also user create user "john" with password and limit this user only able to run command "/usr/bin/telnet", "/bin/traceroute" and "/usr/bin/ftp" only on Linux Operating System.
 To do above requirement, change the site.pp like below.
+
+Below are how to generate password hash for Linux and OpenBSD
+
+```linux
+On Linux, to generate password hash
+# echo password | openssl  passwd -1 -stdin
+$1$d4C/wWcn$r2eRLmmVJY3yNDsRhcKVW
+
+On OpenBSD 5.0
+# echo password | encrypt -b 6
+$2a$06$4KQ3t/AFoVn2Sw.9s1WROuERcY2cDVq6L7k.qIgHID020YqMtCaca
+```
 
 ```puppet
 node "kiwi" {
 
 	$user_data = { 
 		'riq' => {
+			is_hash         => 'false'
 			home_dir        => '/home',
 			password        => 'password',
 			commands        => ['/sbin/ifconfig','/sbin/ip']
 		},
 		'john' => {
+			is_hash         => 'true',
 			home_dir 	=> '/opt/home', 
-			password        => 'password', 
+			password        => '$1$d4C/wWcn$r2eRLmmVJY3yNDsRhcKVW', 
 			commands        => ['/usr/bin/telnet','/bin/traceroute','/usr/bin/ftp']
 			},
 	}
