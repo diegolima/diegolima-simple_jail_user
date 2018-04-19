@@ -6,7 +6,7 @@ a couple of changes all credit goes to him.
 Puppet Module to create simple jail user using restricted shell using bash (rbash) on Linux.
 How it's works, we create the user and set the shell pointing to rbash and then create symlink of commands into $HOME/bin/ and then limit the environment variable PATH only to $HOME/bin.
 
-## What is restricted shell ?
+## About the restricted shell
 
 The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html)
 
@@ -55,8 +55,8 @@ Go to the puppet modules dir and clone the git repo
 ```linux
 # cd /etc/puppet/modules
 
-# git clone https://github.com/rikihg/rikih-simple_jail_user.git
-Cloning into 'rikih-simple_jail_user'...
+# git clone https://github.com/diegolima/diegolima-simple_jail_user.git
+Cloning into 'diegolima-simple_jail_user'...
 remote: Reusing existing pack: 80, done.
 remote: Counting objects: 9, done.
 remote: Compressing objects: 100% (9/9), done.
@@ -94,8 +94,8 @@ node "kiwi" {
   }
   simple_jail_user::createjailuser { 'john':
     is_hash         => 'true',
-    home_dir   => '/opt/home', 
-    password        => '$1$d4C/wWcn$r2eRLmmVJY3yNDsRhcKVW', 
+    home_dir   => '/opt/home',
+    password        => '$1$d4C/wWcn$r2eRLmmVJY3yNDsRhcKVW',
     commands        => ['/usr/bin/telnet','/bin/traceroute','/usr/bin/ftp']
   }
 }
@@ -150,7 +150,7 @@ lrwxrwxrwx 1 root root   15 Apr 20 15:41 traceroute -> /bin/traceroute
 Test if the jail user only able to run commands that you specified only
 
 # ssh john@server1
-john@server1's password: 
+john@server1's password:
 Available commands:
 * telnet
 * traceroute
@@ -171,7 +171,7 @@ $ /sbin/ifconfig
 
 
 # ssh riq@server1
-riq@server1's password: 
+riq@server1's password:
 Available commands:
 * ifconfig
 * ip
@@ -193,8 +193,9 @@ where  OBJECT := { link | addr | addrlabel | route | rule | neigh | ntable | tun
 
 ## Help
 
-Please log tickets and issues at our page https://github.com/diegolima/rikih-simple_jail_user/issues
+Please log tickets and issues at our page https://github.com/diegolima/diegolima-simple_jail_user/issues
 or contact me at diego at diego dot lima dot org.  The original author can be reached at rikih dot gunawan at gmail dot com
 
 ## Note
+
 No responsibility for any damages relating to its use. Use at your own risk.
