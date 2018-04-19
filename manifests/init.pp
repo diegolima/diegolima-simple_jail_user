@@ -13,11 +13,10 @@
 #
 
 class simple_jail_user (
-    $user_data,
     ) inherits simple_jail_user::params
   {
 
-  file { "${simple_jail_user::params::rbash_bin}":
+  file { "${simple_jail_user::params::rbash_bin}" :
     ensure => link,
     target => $bash_bin,
     owner  => 'root',
@@ -37,19 +36,19 @@ class simple_jail_user (
     # change array element /home/user/bin::/sbin/ifconfig
     $cmd2     = regsubst($commands,'(^/+)',"${bin_dir}::\\0",'G')
 
-    createuser { "$name":
+    simple_jail_user::createuser { "$name":
       is_hash   => $is_hash,
       password => $password,
       home_dir => $home_dir,
       commands => $commands
     }
 
-    cleanuphomedir { "${name}":
+    simple_jail_user::cleanuphomedir { "${name}":
       home_dir => $home_dir
     }
 
     # create symlink
-    createsymlink { $cmd2:
+    simple_jail_user::createsymlink { $cmd2:
     }
 
   }
@@ -202,8 +201,4 @@ class simple_jail_user (
     }
 
   }
-
-  create_resources(createjailuser, $user_data)
-
 }
-
