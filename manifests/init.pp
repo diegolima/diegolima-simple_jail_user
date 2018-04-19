@@ -13,6 +13,7 @@
 #
 
 class simple_jail_user (
+  $user_data = undef,
     ) inherits simple_jail_user::params
   {
 
