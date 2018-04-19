@@ -42,7 +42,7 @@
     }
   ],
   "description": "Simple Jail User Module",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "checksums": {
     "LICENSE": "ed56aa5c7d5c0631cb453dd449a590f5",
     "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",

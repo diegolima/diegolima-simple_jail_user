@@ -1,5 +1,5 @@
 name    'diegolima-simple_jail_user'
-version '0.2.0'
+version '0.3.0'
 source 'https://github.com/diegolima/diegolima-simple_jail_user.git'
 author 'Rikih Gunawan'
 license 'MIT License'
