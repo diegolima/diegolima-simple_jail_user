@@ -1,25 +1,30 @@
-rikih-simple-jail-user
-=====================
+# rikih-simple-jail-user
 
-Puppet Module to create simple jail user using restricted shell using bash (rbash) on Linux. 
+This is an update of the rikihg/rikih-simple_jail_user module which should run on newer puppet versions. Aside from
+a couple of changes all credit goes to him.
+
+Puppet Module to create simple jail user using restricted shell using bash (rbash) on Linux.
 How it's works, we create the user and set the shell pointing to rbash and then create symlink of commands into $HOME/bin/ and then limit the environment variable PATH only to $HOME/bin.
 
-###What is restricted shell ?
+## What is restricted shell ?
+
 The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Restricted-Shell.html)
 
-###Limitation
+## Limitation
 
 * Currently only tested for CentOS/RedHat 5.x/6.x, Ubuntu 12.x (precise), Debian 7.x (wheezy), Fedora 18, OpenBSD 5.0
+
 * The command that you limit does not have any dependency with other command and able to run with PATH=$HOME/bin only.
+
 ```linux
-  e.g: 
+  e.g:
       how to check if the command is able to run on restricted bash ?
       # export PATH=/bin
       # ./date
-	Sun Apr 20 23:28:49 SGT 2014
+  Sun Apr 20 23:28:49 SGT 2014
 ```
 
-###How to use
+## How to use
 
 * is_hash = true | false : if you're using hash on the password, you must set it to "true" else set it to "false"
 
@@ -30,26 +35,19 @@ The Restricted Shell (http://www.gnu.org/software/bash/manual/html_node/The-Rest
 * commands : List of commands that you want to allow for the user
 
 ```puppet
-	$user_data = { 
-		'user1' => {
-			is_hash         => 'false',
-			home_dir        => '/home',
-			password        => 'password',
-			commands        => ['/path/command1','/path/command2']
-		},
-		'user2' => {
-			is_hash		=> 'true',
-			home_dir 	=> '/home', 
-			password        => 'password', 
-			commands        => ['/path/command1','/path/command2','/path/command3']
-			},
-	}
-
-
-	class {'simple_jail_user': 
-		user_data => $user_data,
-
-	}
+  class {'simple_jail_user': }
+  simple_jail_user::createjailuser { 'user1':
+    is_hash         => 'false',
+    home_dir        => '/home',
+    password        => 'password',
+    commands        => ['/path/command1','/path/command2']
+  }
+  simple_jail_user::createjailuser { 'user2':
+    is_hash    => 'true',
+    home_dir   => '/home',
+    password        => 'password',
+    commands        => ['/path/command1','/path/command2','/path/command3']
+  }
 ```
 
 Go to the puppet modules dir and clone the git repo
@@ -87,30 +85,24 @@ $2a$06$4KQ3t/AFoVn2Sw.9s1WROuERcY2cDVq6L7k.qIgHID020YqMtCaca
 ```puppet
 node "kiwi" {
 
-	$user_data = { 
-		'riq' => {
-			is_hash         => 'false'
-			home_dir        => '/home',
-			password        => 'password',
-			commands        => ['/sbin/ifconfig','/sbin/ip']
-		},
-		'john' => {
-			is_hash         => 'true',
-			home_dir 	=> '/opt/home', 
-			password        => '$1$d4C/wWcn$r2eRLmmVJY3yNDsRhcKVW', 
-			commands        => ['/usr/bin/telnet','/bin/traceroute','/usr/bin/ftp']
-			},
-	}
-
-
-	class {'simple_jail_user': 
-		user_data => $user_data,
-
-	}
+  class {'simple_jail_user': }
+  simple_jail_user::createjailuser { 'riq':
+    is_hash         => 'false'
+    home_dir        => '/home',
+    password        => 'password',
+    commands        => ['/sbin/ifconfig','/sbin/ip']
+  }
+  simple_jail_user::createjailuser { 'john':
+    is_hash         => 'true',
+    home_dir   => '/opt/home', 
+    password        => '$1$d4C/wWcn$r2eRLmmVJY3yNDsRhcKVW', 
+    commands        => ['/usr/bin/telnet','/bin/traceroute','/usr/bin/ftp']
+  }
 }
 ```
 
 Run puppet on the client and verify it.
+
 ```linux
 # puppet agent --test
 
@@ -199,9 +191,10 @@ where  OBJECT := { link | addr | addrlabel | route | rule | neigh | ntable | tun
 
 ```
 
-###Help
-Please log tickets and issues at our page https://github.com/rikihg/rikih-simple_jail_user/issues
-or contact me at rikih dot gunawan at gmail dot com
+## Help
 
-###Note
+Please log tickets and issues at our page https://github.com/diegolima/rikih-simple_jail_user/issues
+or contact me at diego at diego dot lima dot org.  The original author can be reached at rikih dot gunawan at gmail dot com
+
+## Note
 No responsibility for any damages relating to its use. Use at your own risk.
