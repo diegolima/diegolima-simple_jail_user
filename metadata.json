@@ -70,9 +70,9 @@
   "dependencies": [
 
   ],
-  "source": "https://github.com/rikihg/rikih-simple_jail_user.git",
+  "source": "https://github.com/diegolima/diegolima-simple_jail_user.git",
   "summary": "Simple Jail User Module",
-  "name": "rikih-simple_jail_user",
+  "name": "diegolima-simple_jail_user",
   "license": "MIT License",
-  "project_page": "https://github.com/rikihg/rikih-simple_jail_user"
+  "project_page": "https://github.com/diegolima/diegolima-simple_jail_user"
 }
